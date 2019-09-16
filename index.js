@@ -3,11 +3,12 @@ const { concatMap, concatAll } = require('rxjs/operators');
 
 const api_riot = require('./api-riot');
 const match_details = require('./match-details');
+const environment_vars = require('../environment/environment-secret');
 
 var riotApi = new api_riot();
 var matchData = [];
 
-riotApi.getSummonerDetails("shuntstick").pipe(
+riotApi.getSummonerDetails(environment_vars.userToTrack).pipe(
   concatMap((data) => {
     return riotApi.getMatchlist(data.accountId);
   }),
