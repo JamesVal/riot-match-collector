@@ -2,14 +2,18 @@ const { of } = require('rxjs');
 const { concatMap, concatAll } = require('rxjs/operators');
 
 const api_riot = require('./api-riot');
-const match_details = require('./match-details');
-const environment_vars = require('../environment/environment-secret');
+const match_creator = require('./match-creator');
+const environment_vars = require('./environment/environment-secret');
 
+var userToTrack = environment_vars.userToTrack;
 var riotApi = new api_riot();
 var matchData = [];
+var matchDataToSave = [];
+var summonerDetails;
 
-riotApi.getSummonerDetails(environment_vars.userToTrack).pipe(
+riotApi.getSummonerDetails(userToTrack).pipe(
   concatMap((data) => {
+    summonerDetails = data;
     return riotApi.getMatchlist(data.accountId);
   }),
   concatMap((data) => {
@@ -22,17 +26,15 @@ riotApi.getSummonerDetails(environment_vars.userToTrack).pipe(
   },
   complete: () => {
     //console.log(matchData);
+    console.log(matchData[0]);
+    let newMatch = match_creator.createMatchDetails(summonerDetails, matchData[0]);
+    console.log(newMatch);
   },
   error: (err) => {
     console.log(err);
   }
 });
 
-var md = new match_details();
-
-md.championId = "hey";
-
-console.log(md);
 
 /*
 riotApi.getMatchData(3108638201).subscribe((data) => {

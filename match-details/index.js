@@ -4,22 +4,21 @@ function KDA() {
   this.assists = 0;
 }
 
+function TeamDetails() {
+  this.teamId = 0
+  this.teamMembers = [];
+}
+
 function MatchDetails() {
   this.date = null;
   this.championId = null;
   this.kda = new KDA();
+  this.teamDetails = [];
   this.result = "";
 }
 
-
-/*
-var getSummonerParticipantId = function(id, matchData) {
-  for (var eachParticipantIdx = 0; eachParticipantIdx < matchData.participantIdentities.length; eachParticipantIdx++) {
-    if (id == matchData.participantIdentities[eachParticipantIdx].player.summonerId) {
-      return matchData.participantIdentities[eachParticipantIdx].participantId;
-    }
-  }
+module.exports = { 
+  KDA: KDA,
+  TeamDetails: TeamDetails,
+  MatchDetails: MatchDetails
 }
-*/
-
-module.exports = MatchDetails;
