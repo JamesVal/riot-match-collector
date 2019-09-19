@@ -1,5 +1,6 @@
 const MD = require('../match-details');
 const MatchDetails = MD.MatchDetails;
+const TeamDetails = MD.TeamDetails;
 const KDA = MD.KDA;
 
 function MatchCreator() {
@@ -82,6 +83,7 @@ MatchCreator.prototype.createMatchDetails = function(summonerDetails, matchData)
   var championId = this.getSummonerChampionId(participantId, matchData);
   var curData = new MatchDetails();
 
+  curData.teams = this.getTeamDetails(matchData);
   curData.date = matchData.gameCreation;
   curData.gameMode = matchData.gameMode;
   curData.championId = championId;

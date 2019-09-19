@@ -42,13 +42,17 @@ riotApi.prototype.getMatchlist = function(accountId) {
 
 riotApi.prototype.getAllMatchData = function(matchList) {
   let maxMatch = matchList.length;
+  let me = this;
 
   if (maxMatch > 5) maxMatch = 5;
 
   return new Observable((observer) => {
+    let obsArray = [];
+
     for (let i = 0; i < maxMatch; i++) {
-      observer.next(this.getMatchData(matchList[i].gameId));
+      obsArray.push(me.getMatchData(matchList[i].gameId));
     }
+    observer.next(obsArray);
     observer.complete();
   });
 }
